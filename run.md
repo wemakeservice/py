@@ -10,3 +10,20 @@ get_market_ohlcv() 함수를 사용하여 OHLCV 데이터를 가져옵니다.
 날짜 형식을 'YYYY-MM-DD' 형태로 변경합니다.
 최종 데이터를 'test.csv' 파일로 저장합니다.
 참고: 해당 코드를 실행하기 위해서는 먼저 pip install pykrx 명령어로 pykrx 패키지를 설치해야 합니다.
+
+
+
+# 코스피, 코스닥 종목 정보 추출 코드
+## 코드 설명:
+1. `get_market_ticker_list()` 함수를 사용하여 코스피와 코스닥 종목코드 리스트를 가져옵니다.
+2. `get_market_ticker_name()` 함수로 각 종목코드에 해당하는 종목명을 가져옵니다.
+3. 코스피와 코스닥 정보를 각각 리스트로 수집합니다.
+4. 수집된 정보를 pandas DataFrame으로 변환합니다.
+5. 최종 데이터를 'stock_list.csv' 파일로 저장합니다.
+
+## 생성되는 CSV 파일 형식:
+- 종목코드
+- 종목명
+- 시장구분(KOSPI/KOSDAQ)
+
+실행하기 전에 `pip install pykrx pandas` 명령어로 필요한 패키지를 설치해주세요.
