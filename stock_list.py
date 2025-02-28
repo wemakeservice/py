@@ -1,6 +1,7 @@
 from pykrx import stock
 import pandas as pd
 from datetime import datetime
+import pymysql
 
 def get_stock_info():
     # 오늘 날짜 설정
@@ -46,5 +47,47 @@ def get_stock_info():
     
     return total_df
 
+def insert_into_db(df):
+    # MariaDB 연결 설정
+    connection = pymysql.connect(
+        host='localhost',
+        user='your_username',
+        password='your_password',
+        db='your_database',
+        charset='utf8mb4',
+        cursorclass=pymysql.cursors.DictCursor
+    )
+    
+    try:
+        with connection.cursor() as cursor:
+            # 테이블 생성 (필요한 경우)
+            create_table_query = """
+            CREATE TABLE IF NOT EXISTS stock_info (
+                종목코드 VARCHAR(10) PRIMARY KEY,
+                종목명 VARCHAR(100),
+                시장구분 VARCHAR(10)
+            )
+            """
+            cursor.execute(create_table_query)
+            
+            # 데이터 삽입
+            insert_query = """
+            INSERT INTO stock_info (종목코드, 종목명, 시장구분)
+            VALUES (%s, %s, %s)
+            ON DUPLICATE KEY UPDATE
+                종목명 = VALUES(종목명),
+                시장구분 = VALUES(시장구분)
+            """
+            for _, row in df.iterrows():
+                cursor.execute(insert_query, (row['종목코드'], row['종목명'], row['시장구분']))
+        
+        # 변경사항 커밋
+        connection.commit()
+        print("데이터가 MariaDB에 성공적으로 등록되었습니다.")
+    
+    finally:
+        connection.close()
+
 if __name__ == "__main__":
     stock_df = get_stock_info()
+    insert_into_db(stock_df)
