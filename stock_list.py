@@ -17,9 +17,9 @@ def get_stock_info():
         # 스팩 제외
         if "스팩" not in name:
             kospi_info.append({
-                '종목코드': ticker,
-                '종목명': name,
-                '시장구분': 'KOSPI'
+                'ticker': ticker,
+                'name': name,
+                'market_type': 'KOSPI'
             })
     
     # 코스닥 종목 정보 가져오기
@@ -32,9 +32,9 @@ def get_stock_info():
         # 스팩 제외
         if "스팩" not in name:
             kosdaq_info.append({
-                '종목코드': ticker,
-                '종목명': name,
-                '시장구분': 'KOSDAQ'
+                'ticker': ticker,
+                'name': name,
+                'market_type': 'KOSDAQ'
             })
     
     # DataFrame으로 변환
@@ -63,23 +63,23 @@ def insert_into_db(df):
             # 테이블 생성 (필요한 경우)
             create_table_query = """
             CREATE TABLE IF NOT EXISTS stock_info (
-                종목코드 VARCHAR(10) PRIMARY KEY,
-                종목명 VARCHAR(100),
-                시장구분 VARCHAR(10)
+                ticker VARCHAR(20) PRIMARY KEY,
+                name VARCHAR(200),
+                market_type VARCHAR(20)
             )
             """
             cursor.execute(create_table_query)
             
             # 데이터 삽입
             insert_query = """
-            INSERT INTO stock_info (종목코드, 종목명, 시장구분)
+            INSERT INTO stock_info (ticker, name, market_type)
             VALUES (%s, %s, %s)
             ON DUPLICATE KEY UPDATE
-                종목명 = VALUES(종목명),
-                시장구분 = VALUES(시장구분)
+                name = VALUES(name),
+                market_type = VALUES(market_type)
             """
             for _, row in df.iterrows():
-                cursor.execute(insert_query, (row['종목코드'], row['종목명'], row['시장구분']))
+                cursor.execute(insert_query, (row['ticker'], row['name'], row['market_type']))
         
         # 변경사항 커밋
         connection.commit()
