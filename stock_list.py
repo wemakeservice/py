@@ -90,4 +90,4 @@ def insert_into_db(df):
 
 if __name__ == "__main__":
     stock_df = get_stock_info()
-    insert_into_db(stock_df)
+    #insert_into_db(stock_df)
