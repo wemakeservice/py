@@ -80,3 +80,7 @@ http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC02030101
 **제시 리버모어의 말:**
 
 >   "시장은 변하지 않는다. 인간의 본성이 변하지 않기 때문이다."
+
+# 동전뒤집기
+
+https://elmwealth.com/coin-flip/
