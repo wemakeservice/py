@@ -84,3 +84,6 @@ http://data.krx.co.kr/contents/MDC/MDI/mdiLoader/index.cmd?menuId=MDC02030101
 # 동전뒤집기
 
 https://elmwealth.com/coin-flip/
+
+# 스크랩핑 js
+puppeteer, 퍼팻티어, https://pptr.dev/
